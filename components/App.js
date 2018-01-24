@@ -8,6 +8,19 @@ App = React.createClass({
       };
   },
 
+  handleSearch: function(searchingText) {  // 1.
+      this.setState({
+        loading: true  // 2.
+      });
+      this.getGif(searchingText, function(gif) {  // 3.
+        this.setState({  // 4
+          loading: false,  // a
+          gif: gif,  // b
+          searchingText: searchingText  // c
+        });
+      }.bind(this));
+    },
+
     render: function() {
         var styles = {
             margin: '0 auto',
@@ -30,18 +43,6 @@ App = React.createClass({
     }
 
 
-    handleSearch: function(searchingText) {  // 1.
-        this.setState({
-          loading: true  // 2.
-        });
-        this.getGif(searchingText, function(gif) {  // 3.
-          this.setState({  // 4
-            loading: false,  // a
-            gif: gif,  // b
-            searchingText: searchingText  // c
-          });
-        }.bind(this));
-      },
 
       getGif: function(searchingText, callback) {  // 1.
           var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // 2.
